@@ -240,7 +240,7 @@ struct BertTokenizerTests {
         let tokenizer = bertTokenizer
         for (line, expected) in zip(text.split(separator: "\n"), decoded.split(separator: "\n")) {
             let encoded = tokenizer.encode(text: String(line))
-            let decoded = tokenizer.decode(tokens: encoded)
+            let decoded = tokenizer.decode(tokenIds: encoded)
             #expect(decoded == String(expected))
         }
     }

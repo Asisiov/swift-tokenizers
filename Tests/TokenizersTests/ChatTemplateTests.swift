@@ -59,7 +59,7 @@ struct ChatTemplateTests {
         let tokenizer = try await Self.sharedPhiTokenizer()
         let encoded = try tokenizer.applyChatTemplate(messages: messages)
         let encodedTarget = [32010, 4002, 29581, 278, 14156, 8720, 4086, 29889, 32007, 32001]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget = "<|user|>Describe the Swift programming language.<|end|><|assistant|>"
         #expect(encoded == encodedTarget)
         #expect(decoded == decodedTarget)
@@ -76,7 +76,7 @@ struct ChatTemplateTests {
         ]
         #expect(encoded == encodedTarget)
 
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget =
             "<｜begin▁of▁sentence｜><｜User｜>Describe the Swift programming language.<｜Assistant｜><think>\n"
         #expect(decoded == decodedTarget)
@@ -87,7 +87,7 @@ struct ChatTemplateTests {
         let tokenizer = try await Self.sharedTokenizerWithTemplateArray()
         let encoded = try tokenizer.applyChatTemplate(messages: messages)
         let encodedTarget = [1, 29473, 3, 28752, 1040, 4672, 2563, 17060, 4610, 29491, 29473, 4]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget = "<s> [INST] Describe the Swift programming language. [/INST]"
         #expect(encoded == encodedTarget)
         #expect(decoded == decodedTarget)
@@ -106,7 +106,7 @@ struct ChatTemplateTests {
             1, 518, 25580, 29962, 20355, 915, 278, 14156, 8720, 4086, 29889, 518, 29914, 25580,
             29962,
         ]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget = "<s> [INST] Describe the Swift programming language. [/INST]"
         #expect(encoded == encodedTarget)
         #expect(decoded == decodedTarget)
@@ -125,7 +125,7 @@ struct ChatTemplateTests {
             1, 518, 25580, 29962, 20355, 915, 278, 14156, 8720, 4086, 29889, 518, 29914, 25580,
             29962,
         ]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget = "<s> [INST] Describe the Swift programming language. [/INST]"
         #expect(encoded == encodedTarget)
         #expect(decoded == decodedTarget)
@@ -139,7 +139,7 @@ struct ChatTemplateTests {
             messages: messages, chatTemplate: .name("default")
         )
         let encodedTarget = [1, 29473, 3, 28752, 1040, 4672, 2563, 17060, 4610, 29491, 29473, 4]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget = "<s> [INST] Describe the Swift programming language. [/INST]"
         #expect(encoded == encodedTarget)
         #expect(decoded == decodedTarget)
@@ -175,7 +175,7 @@ struct ChatTemplateTests {
         )
         let encoded = try tokenizer.applyChatTemplate(messages: messages)
         let encodedTarget = [151643, 151669, 74785, 279, 23670, 15473, 4128, 13, 151670]
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let decodedTarget =
             "<｜begin▁of▁sentence｜><｜User｜>Describe the Swift programming language.<｜Assistant｜>"
         #expect(encoded == encodedTarget)
@@ -199,7 +199,7 @@ struct ChatTemplateTests {
         let encoded = try tokenizer.applyChatTemplate(
             messages: messages, chatTemplate: whitespaceSensitiveTemplate
         )
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
         let expected = """
             Describe the Swift programming language.
             assistant
@@ -246,7 +246,7 @@ struct ChatTemplateTests {
         let encoded = try tokenizer.applyChatTemplate(
             messages: weatherQueryMessages, tools: [getCurrentWeatherToolSpec]
         )
-        let decoded = tokenizer.decode(tokens: encoded)
+        let decoded = tokenizer.decode(tokenIds: encoded)
 
         func assertDictsAreEqual(_ actual: [String: Any], _ expected: [String: Any]) {
             for (key, value) in actual {
@@ -349,9 +349,9 @@ struct ChatTemplateTests {
             matching: tokenizerAndChatTemplateFiles
         )
         let qwen2VLEncoded = try qwen2VLTokenizer.applyChatTemplate(messages: visionMessages)
-        let qwen2VLDecoded = qwen2VLTokenizer.decode(tokens: qwen2VLEncoded)
+        let qwen2VLDecoded = qwen2VLTokenizer.decode(tokenIds: qwen2VLEncoded)
         let qwen2_5VLEncoded = try qwen2_5VLTokenizer.applyChatTemplate(messages: visionMessages)
-        let qwen2_5VLDecoded = qwen2_5VLTokenizer.decode(tokens: qwen2_5VLEncoded)
+        let qwen2_5VLDecoded = qwen2_5VLTokenizer.decode(tokenIds: qwen2_5VLEncoded)
         let expectedOutput = """
             <|im_start|>system
             You are a helpful assistant.<|im_end|>

@@ -115,14 +115,14 @@ struct TokenizerTests {
 
         #expect(tokenizer.tokenize(text: dataset.text) == dataset.bpe_tokens)
         #expect(tokenizer.encode(text: dataset.text) == dataset.token_ids)
-        #expect(tokenizer.decode(tokens: dataset.token_ids) == dataset.decoded_text)
+        #expect(tokenizer.decode(tokenIds: dataset.token_ids) == dataset.decoded_text)
 
         // Edge cases (if available)
         if let edgeCases = try? loadEdgeCases(for: spec.hubModelName) {
             for edgeCase in edgeCases {
                 #expect(tokenizer.encode(text: edgeCase.input) == edgeCase.encoded.input_ids)
-                #expect(tokenizer.decode(tokens: edgeCase.encoded.input_ids) == edgeCase.decoded_with_special)
-                #expect(tokenizer.decode(tokens: edgeCase.encoded.input_ids, skipSpecialTokens: true) == edgeCase.decoded_without_special)
+                #expect(tokenizer.decode(tokenIds: edgeCase.encoded.input_ids) == edgeCase.decoded_with_special)
+                #expect(tokenizer.decode(tokenIds: edgeCase.encoded.input_ids, skipSpecialTokens: true) == edgeCase.decoded_without_special)
             }
         }
 
@@ -167,7 +167,7 @@ struct TokenizerTests {
         // Test added tokens
         let inputIds = tokenizer("This\n\nis\na\ntest.")
         #expect(inputIds == [2, 1596, 109, 502, 108, 235250, 108, 2195, 235265])
-        let decoded = tokenizer.decode(tokens: inputIds)
+        let decoded = tokenizer.decode(tokenIds: inputIds)
         #expect(decoded == "<bos>This\n\nis\na\ntest.")
     }
 
@@ -346,7 +346,7 @@ struct TokenizerTests {
         #expect(tokenized == ["l", "'", "eu", "##re"])
         let encoded = tokenizer.encode(text: text)
         #expect(encoded == [101, 1048, 1005, 7327, 2890, 102])
-        let decoded = tokenizer.decode(tokens: encoded, skipSpecialTokens: true)
+        let decoded = tokenizer.decode(tokenIds: encoded, skipSpecialTokens: true)
         // Note: this matches the behaviour of the Python "slow" tokenizer, but the fast one produces "l ' eure"
         #expect(decoded == "l'eure")
 
@@ -367,7 +367,7 @@ struct TokenizerTests {
 
         #expect(tokenizer.tokenize(text: "l'eure") == ["l", "'", "e", "ure"])
         #expect(tokenizer.encode(text: "l'eure") == [0, 462, 108, 242, 2407, 2])
-        #expect(tokenizer.decode(tokens: tokenizer.encode(text: "l'eure"), skipSpecialTokens: true) == "l'eure")
+        #expect(tokenizer.decode(tokenIds: tokenizer.encode(text: "l'eure"), skipSpecialTokens: true) == "l'eure")
 
         #expect(tokenizer.tokenize(text: "mąka") == ["m", "Ä", "ħ", "ka"])
         #expect(tokenizer.encode(text: "mąka") == [0, 119, 649, 5782, 2348, 2])
@@ -417,7 +417,7 @@ struct TokenizerTests {
             func convertTokenToId(_ token: String) -> Int? { nil }
             func convertIdToToken(_ id: Int) -> String? { nil }
             func encode(text: String) -> [Int] { [] }
-            func decode(tokens: [Int]) -> String { "" }
+            func decode(tokenIds: [Int]) -> String { "" }
         }
 
         // Register from multiple concurrent tasks

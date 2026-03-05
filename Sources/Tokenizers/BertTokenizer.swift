@@ -158,8 +158,8 @@ public final class BertTokenizer: Sendable {
     }
 
     /// Un-tokenization: get tokens from tokenIds
-    func unTokenize(tokens: [Int]) -> [String] {
-        tokens.compactMap { ids_to_tokens[$0] }
+    func unTokenize(tokenIds: [Int]) -> [String] {
+        tokenIds.compactMap { ids_to_tokens[$0] }
     }
 
     /// Un-tokenization:
@@ -207,8 +207,8 @@ extension BertTokenizer: PreTrainedTokenizerModel {
 
     func encode(text: String) -> [Int] { tokenizeToIds(text: text) }
 
-    func decode(tokens: [Int]) -> String {
-        let tokens = unTokenize(tokens: tokens)
+    func decode(tokenIds: [Int]) -> String {
+        let tokens = unTokenize(tokenIds: tokenIds)
         return convertWordpieceToBasicTokenList(tokens)
     }
 

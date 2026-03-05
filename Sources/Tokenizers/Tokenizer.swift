@@ -301,10 +301,10 @@ public protocol Tokenizer: Sendable {
     /// Decodes token IDs back into text with optional special token handling.
     ///
     /// - Parameters:
-    ///   - tokens: The token IDs to decode
+    ///   - tokenIds: The token IDs to decode
     ///   - skipSpecialTokens: Whether to skip special tokens in the output
     /// - Returns: The decoded text string
-    func decode(tokens: [Int], skipSpecialTokens: Bool) -> String
+    func decode(tokenIds: [Int], skipSpecialTokens: Bool) -> String
 
     /// Converts a token string to its corresponding numeric ID.
     ///
@@ -412,8 +412,8 @@ public extension Tokenizer {
         encode(text: text, addSpecialTokens: addSpecialTokens)
     }
 
-    func decode(tokens: [Int]) -> String {
-        decode(tokens: tokens, skipSpecialTokens: false)
+    func decode(tokenIds: [Int]) -> String {
+        decode(tokenIds: tokenIds, skipSpecialTokens: false)
     }
 
     func convertTokensToIds(_ tokens: [String]) -> [Int?] {
@@ -657,20 +657,20 @@ public class PreTrainedTokenizer: @unchecked Sendable, Tokenizer {
     /// Decodes token IDs back into human-readable text.
     ///
     /// - Parameters:
-    ///   - tokens: The token IDs to decode
+    ///   - tokenIds: The token IDs to decode
     ///   - skipSpecialTokens: Whether to exclude special tokens from the output text
     /// - Returns: The decoded text string
-    public func decode(tokens: [Int], skipSpecialTokens: Bool) -> String {
+    public func decode(tokenIds: [Int], skipSpecialTokens: Bool) -> String {
         // IDs to tokens
         let tokenStrings: [String]
         if skipSpecialTokens {
             let specialTokenIDs = Set(specialTokens.values)
             tokenStrings =
-                tokens
+                tokenIds
                 .filter { !specialTokenIDs.contains($0) }
                 .compactMap { model.convertIdToToken($0) }
         } else {
-            tokenStrings = tokens.compactMap { model.convertIdToToken($0) }
+            tokenStrings = tokenIds.compactMap { model.convertIdToToken($0) }
         }
         let decoded = decodeTokens(tokenStrings)
         // At this point we should have a single String
