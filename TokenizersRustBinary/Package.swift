@@ -12,8 +12,8 @@ let tokenizersRustTarget: Target =
     } else {
         .binaryTarget(
             name: "TokenizersRust",
-            url: "https://github.com/DePasqualeOrg/swift-tokenizers/releases/download/tokenizers-rust-rename-rust-artifact-1/TokenizersRust-main-3.xcframework.zip",
-            checksum: "ec56924f0ed8493937da06496f09a680ed81803fd20ef33769538a95ec85ff77"
+            url: "https://github.com/DePasqualeOrg/swift-tokenizers/releases/download/tokenizers-rust-0.3.0/TokenizersRust-0.3.0.xcframework.zip",
+            checksum: "a48abdf5328ad8d174579b80afce530a0a159f53ce9e659e13f6b3d506e4a433"
         )
     }
 
