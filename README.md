@@ -17,7 +17,7 @@ If you add the package without specifying traits, the default `Swift` trait is e
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/DePasqualeOrg/swift-tokenizers.git", from: "0.2.1")
+    .package(url: "https://github.com/DePasqualeOrg/swift-tokenizers.git", from: "0.3.1")
 ]
 ```
 
@@ -29,7 +29,7 @@ To build with the Rust backend instead of the default Swift backend, enable only
 dependencies: [
     .package(
         url: "https://github.com/DePasqualeOrg/swift-tokenizers.git",
-        from: "0.2.1",
+        from: "0.3.1",
         traits: ["Rust"]
     )
 ]
