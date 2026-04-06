@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CRATE_DIR="${REPO_ROOT}/rust/swift-tokenizers-rust"
 HEADERS_DIR="${CRATE_DIR}/include"
 OUTPUT_DIR="${REPO_ROOT}/Binaries/TokenizersRust.xcframework"
@@ -46,7 +46,7 @@ rustup target add --toolchain "${TOOLCHAIN}" "${TARGETS[@]}"
 
 for target in "${TARGETS[@]}"; do
   echo "Building for ${target}..."
-  cargo build \
+  cargo +"${TOOLCHAIN}" build \
     --manifest-path "${CRATE_DIR}/Cargo.toml" \
     --locked \
     --release \

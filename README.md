@@ -42,24 +42,6 @@ The package traits are intentionally mutually exclusive:
 
 Do not combine `.defaults` and `"Rust"` for this package.
 
-### Building the local Rust artifact
-
-Package consumers do not need to build the XCFramework locally. This is only needed when working on the Rust backend itself or publishing a new Rust artifact:
-
-```bash
-bash scripts/build-rust-xcframework.sh
-```
-
-The repository also includes:
-
-- `scripts/package-rust-release.sh` to zip the XCFramework and compute the SwiftPM checksum
-- `scripts/rust-release-notes.py` to generate release notes from the locked Rust dependency graph
-- `.github/workflows/rust-release.yml` to build, validate, and publish the release artifact in CI
-
-The Rust release flow pins the toolchain in `rust-toolchain.toml`, installs the required Apple targets with `rustup`, tracks `rust/swift-tokenizers-rust/Cargo.lock`, and builds with `cargo --locked`.
-
-When publishing a Rust artifact, use semantic versions aligned with the package release line, for example `0.2.2` or `0.2.2-rc.1`. Versions containing `-` are published as prereleases; plain `x.y.z` versions are published as final releases.
-
 ## Examples
 
 ### Loading a tokenizer

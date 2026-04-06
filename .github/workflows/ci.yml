@@ -32,10 +32,11 @@ jobs:
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
               with:
+                  toolchain: 1.94.1
                   targets: aarch64-apple-darwin,x86_64-apple-darwin,aarch64-apple-ios,aarch64-apple-ios-sim,x86_64-apple-ios
 
             - name: Build Rust XCFramework
-              run: bash scripts/build-rust-xcframework.sh
+              run: bash scripts/rust/build/build-rust-xcframework.sh
 
             - name: Run Rust trait tests
               run: swift test --traits Rust
