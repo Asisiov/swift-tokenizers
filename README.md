@@ -1,17 +1,22 @@
 Swift Tokenizers is a streamlined and optimized fork of Swift Transformers that focuses solely on tokenizer functionality. It has no dependency on the Hugging Face Hub: tokenizers are simply loaded from a directory, and downloading is handled separately.
 
-The package supports two backends behind the same Swift API:
-
-- `Swift` is the default backend. It is pure Swift and requires no Rust artifact.
-- `Rust` is an opt-in backend that uses a prebuilt Rust artifact for faster tokenization and decoding on supported Apple platforms.
-
 Refer to the [Benchmarks](#benchmarks) section to compare the performance of Swift Tokenizers and Swift Transformers.
+
+Two backends are available using Swift package traits:
+
+| | Swift (default) | Rust (opt-in) |
+|---|---|---|
+| Tokenization | Swift | [tokenizers](https://github.com/huggingface/tokenizers) |
+| Chat templates | [Swift Jinja](https://github.com/huggingface/swift-jinja) | [MiniJinja](https://github.com/mitsuhiko/minijinja) |
+| JSON parsing | [yyjson](https://github.com/ibireme/yyjson) (C) | [serde](https://github.com/serde-rs/serde) |
+
+The opt-in `Rust` trait links a Rust binary and excludes the corresponding Swift implementations for even faster performance than the optimized Swift backend.
 
 ## Package setup
 
 Swift Tokenizers uses Swift package traits and requires Swift 6.1 or newer.
 
-### Default pure Swift backend
+### Default Swift backend
 
 If you add the package without specifying traits, the default `Swift` trait is enabled:
 
@@ -95,7 +100,7 @@ let tokens = try tokenizer.applyChatTemplate(
 
 ## Migration from Swift Transformers
 
-This library focuses solely on tokenization. For downloading models from the Hugging Face Hub, use [Swift Hugging Face](https://github.com/huggingface/swift-huggingface).
+This library focuses solely on tokenization. The separate [Swift HF API](https://github.com/DePasqualeOrg/swift-hf-api) is an optimized client for the Hugging Face Hub API.
 
 ### Package dependency
 
