@@ -93,7 +93,7 @@ var packageTargets: [Target] = [
         // exclude: excludedTokenizerSources(keeping: tokenizerSwiftBackendSources) + ["RustBackedTokenizer.swift"],
         // sources: tokenizerSwiftBackendSources,
         swiftSettings: [
-            .define("TOKENIZERS_SWIFT_BACKEND"))
+            .define("TOKENIZERS_SWIFT_BACKEND")
         ]
     ),
     // .target(
