@@ -53,7 +53,7 @@ if benchmarksEnabled {
         .package(
             // TODO: Switch to a major version pin once mlx-swift-lm publishes a new major release that includes these APIs.
             url: "https://github.com/ml-explore/mlx-swift-lm.git",
-            revision: "8c9dd6391139242261bcf27d253c326f9cf2d567"
+            revision: "89de43c6c8c36f037da3db22230fa5356463b594"
         )
     )
 }
