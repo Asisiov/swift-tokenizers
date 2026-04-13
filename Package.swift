@@ -26,17 +26,17 @@ let tokenizerSwiftBackendSources = [
     "SwiftTokenizerBackend.swift",
 ]
 
-let tokenizerRustBackendSources = [
-    "RustBackedTokenizer.swift"
-]
+// let tokenizerRustBackendSources = [
+// "RustBackedTokenizer.swift"
+// ]
 
 let tokenizerDirectorySources =
     tokenizerCoreSources
     + tokenizerSwiftBackendSources
-    + tokenizerRustBackendSources
+    // + tokenizerRustBackendSources
 
 let benchmarksEnabled = Context.environment["TOKENIZERS_ENABLE_BENCHMARKS"] == "1"
-let localRustArtifactPath = Context.environment["TOKENIZERS_RUST_LOCAL_XCFRAMEWORK_PATH"]
+// let localRustArtifactPath = Context.environment["TOKENIZERS_RUST_LOCAL_XCFRAMEWORK_PATH"]
 
 func excludedTokenizerSources(keeping sources: [String]) -> [String] {
     tokenizerDirectorySources.filter { !sources.contains($0) }
@@ -58,21 +58,21 @@ if benchmarksEnabled {
     )
 }
 
-let tokenizersRustTarget: Target =
-    if let localRustArtifactPath {
-        // Used by the Rust release workflow to validate the freshly built XCFramework
-        // before publishing it as a remote binary artifact.
-        .binaryTarget(name: "TokenizersRust", path: localRustArtifactPath)
-    } else {
-        .binaryTarget(
-            name: "TokenizersRust",
-            url: "https://github.com/DePasqualeOrg/swift-tokenizers/releases/download/tokenizers-rust-0.3.1/TokenizersRust-0.3.1.xcframework.zip",
-            checksum: "d25288b933b3aa164b661f8ff2b02a53c57c9b32a20dd1ac8a6c3429467f6fcd"
-        )
-    }
+// let tokenizersRustTarget: Target =
+//     if let localRustArtifactPath {
+//         // Used by the Rust release workflow to validate the freshly built XCFramework
+//         // before publishing it as a remote binary artifact.
+//         .binaryTarget(name: "TokenizersRust", path: localRustArtifactPath)
+//     } else {
+//         .binaryTarget(
+//             name: "TokenizersRust",
+//             url: "https://github.com/DePasqualeOrg/swift-tokenizers/releases/download/tokenizers-rust-0.3.1/TokenizersRust-0.3.1.xcframework.zip",
+//             checksum: "d25288b933b3aa164b661f8ff2b02a53c57c9b32a20dd1ac8a6c3429467f6fcd"
+//         )
+//     }
 
 var packageTargets: [Target] = [
-    tokenizersRustTarget,
+    // tokenizersRustTarget,
     .target(
         name: "TokenizersCore",
         dependencies: [],
@@ -94,30 +94,30 @@ var packageTargets: [Target] = [
             .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"]))
         ]
     ),
-    .target(
-        name: "TokenizersRustBackend",
-        dependencies: [
-            "TokenizersCore",
-            .target(name: "TokenizersRust", condition: .when(traits: ["Rust"])),
-        ],
-        path: "Sources/Tokenizers",
-        exclude: excludedTokenizerSources(keeping: tokenizerRustBackendSources),
-        sources: tokenizerRustBackendSources,
-        swiftSettings: [
-            .define("Rust", .when(traits: ["Rust"]))
-        ]
-    ),
+    // .target(
+        // name: "TokenizersRustBackend",
+        // dependencies: [
+            // "TokenizersCore",
+            // .target(name: "TokenizersRust", condition: .when(traits: ["Rust"])),
+        // ],
+        // path: "Sources/Tokenizers",
+        // exclude: excludedTokenizerSources(keeping: tokenizerRustBackendSources),
+        // sources: tokenizerRustBackendSources,
+        // swiftSettings: [
+            // .define("Rust", .when(traits: ["Rust"]))
+        // ]
+    // ),
     .target(
         name: "Tokenizers",
         dependencies: [
             "TokenizersCore",
             .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
-            .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
+            // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
         ],
         path: "Sources/TokenizersFacade",
         swiftSettings: [
             .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
-            .define("Rust", .when(traits: ["Rust"])),
+            // .define("Rust", .when(traits: ["Rust"])),
         ]
     ),
     .testTarget(
@@ -126,13 +126,13 @@ var packageTargets: [Target] = [
             "Tokenizers",
             "TokenizersCore",
             .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
-            .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
+            // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
             .product(name: "HFAPI", package: "swift-hf-api"),
         ],
         resources: [.process("Resources")],
         swiftSettings: [
             .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
-            .define("Rust", .when(traits: ["Rust"])),
+            // .define("Rust", .when(traits: ["Rust"])),
         ]
     ),
 ]
@@ -145,14 +145,14 @@ if benchmarksEnabled {
                 "Tokenizers",
                 "TokenizersCore",
                 .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
-                .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
+                // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
                 .product(name: "HFAPI", package: "swift-hf-api"),
                 .product(name: "BenchmarkHelpers", package: "mlx-swift-lm"),
                 .product(name: "MLXLMCommon", package: "mlx-swift-lm"),
             ],
             swiftSettings: [
                 .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
-                .define("Rust", .when(traits: ["Rust"])),
+                // .define("Rust", .when(traits: ["Rust"])),
             ]
         )
     )
@@ -167,7 +167,7 @@ let package = Package(
     traits: [
         .default(enabledTraits: ["Swift"]),
         .trait(name: "Swift"),
-        .trait(name: "Rust"),
+        // .trait(name: "Rust"),
     ],
     dependencies: packageDependencies,
     targets: packageTargets
