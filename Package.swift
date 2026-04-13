@@ -84,9 +84,10 @@ var packageTargets: [Target] = [
         name: "TokenizersSwiftBackend",
         dependencies: [
             "TokenizersCore",
-            // .product(name: "Jinja", package: "swift-jinja", condition: .when(traits: ["Swift"])),
-            .product(name: "Jinja"),
-            .product(name: "yyjson", package: "yyjson", condition: .when(traits: ["Swift"])),
+            // .product(name: "Jinja", package: "swift-jinja", condition: .when(traits: ["Swift"])),            
+            // .product(name: "yyjson", package: "yyjson", condition: .when(traits: ["Swift"])),
+            .product(name: "Jinja", package: "swift-jinja"),
+            .product(name: "yyjson", package: "yyjson"),
         ],
         path: "Sources/Tokenizers",
         exclude: excludedTokenizerSources(keeping: tokenizerSwiftBackendSources),
