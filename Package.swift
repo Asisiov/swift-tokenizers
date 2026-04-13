@@ -164,11 +164,11 @@ let package = Package(
     products: [
         .library(name: "Tokenizers", targets: ["Tokenizers"])
     ],
-    traits: [
-        .default(enabledTraits: ["Swift"]),
-        .trait(name: "Swift"),
+    // traits: [
+        // .default(enabledTraits: ["Swift"]),
+        // .trait(name: "Swift"),
         // .trait(name: "Rust"),
-    ],
+    // ],
     dependencies: packageDependencies,
     targets: packageTargets
 )
