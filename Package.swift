@@ -113,12 +113,14 @@ var packageTargets: [Target] = [
         name: "Tokenizers",
         dependencies: [
             "TokenizersCore",
-            .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
+            .target(name: "TokenizersSwiftBackend"),
+            // .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
             // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
         ],
         path: "Sources/TokenizersFacade",
         swiftSettings: [
-            .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
+            .define("TOKENIZERS_SWIFT_BACKEND"),
+            // .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
             // .define("Rust", .when(traits: ["Rust"])),
         ]
     ),
@@ -127,13 +129,15 @@ var packageTargets: [Target] = [
         dependencies: [
             "Tokenizers",
             "TokenizersCore",
-            .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
+            .target(name: "TokenizersSwiftBackend"),
+            // .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
             // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
             .product(name: "HFAPI", package: "swift-hf-api"),
         ],
         resources: [.process("Resources")],
         swiftSettings: [
-            .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
+            .define("TOKENIZERS_SWIFT_BACKEND"),
+            // .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"])),
             // .define("Rust", .when(traits: ["Rust"])),
         ]
     ),
@@ -146,7 +150,8 @@ if benchmarksEnabled {
             dependencies: [
                 "Tokenizers",
                 "TokenizersCore",
-                .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
+                .target(name: "TokenizersSwiftBackend"),
+                // .target(name: "TokenizersSwiftBackend", condition: .when(traits: ["Swift"])),
                 // .target(name: "TokenizersRustBackend", condition: .when(traits: ["Rust"])),
                 .product(name: "HFAPI", package: "swift-hf-api"),
                 .product(name: "BenchmarkHelpers", package: "mlx-swift-lm"),
