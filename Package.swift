@@ -77,7 +77,7 @@ var packageTargets: [Target] = [
         name: "TokenizersCore",
         dependencies: [],
         path: "Sources/Tokenizers",
-        exclude: excludedTokenizerSources(keeping: tokenizerCoreSources),
+        exclude: excludedTokenizerSources(keeping: tokenizerCoreSources) + ["RustBackedTokenizer.swift"],
         sources: tokenizerCoreSources
     ),
     .target(
@@ -90,7 +90,7 @@ var packageTargets: [Target] = [
             .product(name: "yyjson", package: "yyjson"),
         ],
         path: "Sources/Tokenizers",
-        exclude: excludedTokenizerSources(keeping: tokenizerSwiftBackendSources),
+        exclude: excludedTokenizerSources(keeping: tokenizerSwiftBackendSources) + ["RustBackedTokenizer.swift"],
         sources: tokenizerSwiftBackendSources,
         swiftSettings: [
             .define("TOKENIZERS_SWIFT_BACKEND", .when(traits: ["Swift"]))
